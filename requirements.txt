@@ -5,6 +5,7 @@ numpy
 pandas
 matplotlib
 seaborn
+openpyxl
 
 # Supervised learning and imbalanced data
 scikit-learn
