@@ -1,0 +1,86 @@
+{
+  "dataset": "OpenML adult version 2",
+  "source": "/workspace/scratch/2d9f2ecf909e/census-point1/census_income.xlsx",
+  "raw_rows": 48842,
+  "clean_rows": 48790,
+  "duplicates_removed": 52,
+  "clean_dataset_sha256": "849a51dab6110774e2c47af284b084ac54abb4d3aad4c5d67cd7eb28f40c5a30",
+  "random_state": 42,
+  "profile_audit": {
+    "repeated_profile_groups": 5,
+    "rows_in_repeated_profiles": 10,
+    "contradictory_label_groups": 5
+  },
+  "fractions": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "split_method": "StratifiedGroupKFold(20, shuffle=True): first 14 folds train, next 3 validation, last 3 test",
+  "group_definition": "Identical original 14-variable profiles, including fnlwgt; target excluded",
+  "balance_tolerance": "At most 0.5 percentage point deviation in size fraction or target prevalence",
+  "target_mapping": {
+    "<=50K": 0,
+    ">50K": 1
+  },
+  "excluded_predictors": [
+    "row_id",
+    "class",
+    "fnlwgt",
+    "education",
+    "sex"
+  ],
+  "splits": {
+    "train": {
+      "n_rows": 34156,
+      "positive_count": 8177,
+      "negative_count": 25979,
+      "positive_rate": 0.23940156927040637,
+      "sex_counts": {
+        "Male": 22930,
+        "Female": 11226
+      },
+      "n_predictors": 11
+    },
+    "validation": {
+      "n_rows": 7317,
+      "positive_count": 1752,
+      "negative_count": 5565,
+      "positive_rate": 0.23944239442394424,
+      "sex_counts": {
+        "Male": 4872,
+        "Female": 2445
+      },
+      "n_predictors": 11
+    },
+    "test": {
+      "n_rows": 7317,
+      "positive_count": 1752,
+      "negative_count": 5565,
+      "positive_rate": 0.23944239442394424,
+      "sex_counts": {
+        "Male": 4812,
+        "Female": 2505
+      },
+      "n_predictors": 11
+    }
+  },
+  "file_sha256": {
+    "train.csv": "a004efd86c3a359ba6444bb1700b8057972c0a32c392267e9b6ca896b0369c9c",
+    "validation.csv": "77c4da27eed2d6307df61cca4baf51c6ec720adf4d04563098291582a2132209",
+    "test.csv": "94abf437ec27d17c2fe6cad4bd5d5f6c77025436d18eb7313ffbc7a33cb2ac95"
+  },
+  "checks": {
+    "disjoint_source_rows": true,
+    "disjoint_original_predictor_profiles": true,
+    "complete_coverage": true,
+    "stratified_balance": true,
+    "aligned_sensitive_attribute": true
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "pandas": "2.2.3",
+    "sklearn": "1.8.0"
+  },
+  "scope": "No learned preprocessing or modelling; test reserved for final frozen comparisons."
+}

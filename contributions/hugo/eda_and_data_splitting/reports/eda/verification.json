@@ -1,0 +1,11 @@
+{
+  "unit_tests_passed": 8,
+  "figures_produced": 7,
+  "original_tracked_files_unchanged": true,
+  "commands_passed": [
+    "python -m src.prepare_data",
+    "python -m src.explore_training_data",
+    "python -m unittest discover -s tests -v"
+  ],
+  "scope": "Hugo additive contribution; credits original EDA; no model experiments claimed."
+}
