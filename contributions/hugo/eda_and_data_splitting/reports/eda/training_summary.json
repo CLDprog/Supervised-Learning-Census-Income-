@@ -1,0 +1,78 @@
+{
+  "scope": "Training-only EDA. Holdout CSVs are not read. Observed rates are not model fairness metrics.",
+  "n_rows": 34156,
+  "n_original_features": 14,
+  "class_counts": {
+    "<=50K": 25979,
+    ">50K": 8177
+  },
+  "positive_rate": 0.23940156927040637,
+  "missing": [
+    {
+      "feature": "workclass",
+      "missing_count": 1929,
+      "missing_rate": 0.05647616816957489
+    },
+    {
+      "feature": "occupation",
+      "missing_count": 1937,
+      "missing_rate": 0.05671038763321232
+    },
+    {
+      "feature": "native-country",
+      "missing_count": 606,
+      "missing_rate": 0.01774212437053519
+    }
+  ],
+  "education_mapping_is_one_to_one": true,
+  "capital_gain_zero_rate": 0.9181402974587188,
+  "capital_loss_zero_rate": 0.9534781590350158,
+  "capital_gain_99999_count": 164,
+  "repeated_original_profile_rows": 10,
+  "sex_observed_rates": [
+    {
+      "group": "Female",
+      "n": 11226,
+      "positives": 1243,
+      "observed_positive_rate": 0.11072510244076252
+    },
+    {
+      "group": "Male",
+      "n": 22930,
+      "positives": 6934,
+      "observed_positive_rate": 0.30239860444832095
+    }
+  ],
+  "race_observed_rates": [
+    {
+      "group": "Amer-Indian-Eskimo",
+      "n": 334,
+      "positives": 37,
+      "observed_positive_rate": 0.11077844311377245
+    },
+    {
+      "group": "Asian-Pac-Islander",
+      "n": 1086,
+      "positives": 295,
+      "observed_positive_rate": 0.2716390423572744
+    },
+    {
+      "group": "Black",
+      "n": 3340,
+      "positives": 389,
+      "observed_positive_rate": 0.11646706586826347
+    },
+    {
+      "group": "Other",
+      "n": 286,
+      "positives": 36,
+      "observed_positive_rate": 0.1258741258741259
+    },
+    {
+      "group": "White",
+      "n": 29110,
+      "positives": 7420,
+      "observed_positive_rate": 0.25489522500858813
+    }
+  ]
+}
