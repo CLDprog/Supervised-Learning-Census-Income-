@@ -6,6 +6,7 @@ pandas
 matplotlib
 seaborn
 openpyxl
+missingno
 
 # Supervised learning and imbalanced data
 scikit-learn

@@ -232,6 +232,36 @@ git commit -m "Décris ce que tu as fait"
 git pull
 ```
 
+Si ton travail n'est pas encore prêt à être commité, vois la section juste en dessous.
+
+### « Je veux récupérer le travail des autres sans commiter le mien »
+
+Tu es au milieu de quelque chose et tu veux juste récupérer ce que les autres ont poussé. Essaie d'abord simplement :
+
+```bash
+git pull
+```
+
+Git accepte tant que les fichiers que tu es en train de modifier ne sont pas ceux que les autres ont changés. Tes modifications en cours restent intactes.
+
+Si Git refuse (`Your local changes would be overwritten by merge`), mets ton travail de côté le temps de récupérer celui des autres :
+
+```bash
+git stash
+```
+
+```bash
+git pull
+```
+
+```bash
+git stash pop
+```
+
+`git stash` range tes modifications en cours dans un tiroir et remet le dossier dans l'état du dernier commit. `git stash pop` les ressort par-dessus ce que tu viens de récupérer. Rien n'est commité, rien n'est perdu.
+
+Si `git stash pop` annonce un conflit, c'est que quelqu'un a modifié les mêmes lignes que toi : résous-le comme expliqué dans « J'ai un conflit » ci-dessous (sans le `git commit` final si tu n'es pas prêt). Tes modifications restent aussi dans le tiroir tant que le conflit n'est pas réglé ; une fois que tout est bon, vide-le avec `git stash drop`.
+
 ### « Un écran bizarre s'ouvre après `git pull` »
 
 Git te demande de valider un message de fusion.
@@ -323,6 +353,7 @@ L'identifiant d'un commit se trouve avec `git log --oneline`.
 | `git diff` | Je vois précisément ce que j'ai modifié |
 | `git restore fichier` | J'annule mes modifications sur un fichier |
 | `git merge --abort` | J'annule une fusion en conflit |
+| `git stash` puis `git stash pop` | Je mets mon travail en cours de côté, puis je le ressors |
 
 **La séquence complète :**
 
