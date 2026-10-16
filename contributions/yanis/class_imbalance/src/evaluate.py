@@ -3,11 +3,13 @@
 Ce module est partagé avec la partie 4 : tous les modèles doivent être
 évalués avec cette même fonction pour que les résultats soient comparables.
 """
+import numpy as np
 from sklearn.metrics import (
     accuracy_score,
     average_precision_score,
     confusion_matrix,
     f1_score,
+    precision_recall_curve,
     precision_score,
     recall_score,
     roc_auc_score,
@@ -37,6 +39,15 @@ def evaluate_model(y_true, y_proba, threshold=0.5):
         "tp": int(tp),
     }
 
+def find_best_threshold(y_true, y_proba):
+    """Renvoie le seuil qui maximise le F1 de la classe >50K.
+
+    À appeler uniquement sur la validation, jamais sur le test.
+    """
+    precision, recall, thresholds = precision_recall_curve(y_true, y_proba)
+    f1 = 2 * precision * recall / (precision + recall + 1e-12)
+    best_index = np.argmax(f1[:-1])
+    return float(thresholds[best_index])
 
 if __name__ == "__main__":
     import numpy as np
