@@ -2,8 +2,11 @@
 import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import FunctionTransformer
 
-from contributions.yanis.class_imbalance.src.evaluate import evaluate_model
+from contributions.yanis.class_imbalance.src.evaluate import evaluate_model, find_best_threshold
 from contributions.yanis.feature_engineering.src.build_features import (
     DATA_DIR,
     add_capital_features,
@@ -46,6 +49,36 @@ def prepare_features():
     X_val_encoded = encoder.transform(X_val_featured)
 
     return X_train_encoded, y_train, X_val_encoded, y_val
+
+CV_METRICS = ["average_precision", "roc_auc", "precision", "recall", "f1"]
+
+
+def build_pipeline(model):
+    """Range toute la partie 2 puis le modèle dans un seul objet.
+
+    Indispensable pour la validation croisée : à chaque découpage,
+    l'imputation et l'encodage sont réappris sur la partie
+    d'entraînement uniquement (pas de fuite de données).
+    """
+    return Pipeline([
+        ("impute", build_missing_value_imputer().set_output(transform="pandas")),
+        ("group_rare", FunctionTransformer(group_rare_categories)),
+        ("capital", FunctionTransformer(add_capital_features)),
+        ("encode", build_encoder()),
+        ("model", model),
+    ])
+
+
+def cross_validate_model(title, model, X, y):
+    """Validation croisée en 5 découpages : affiche moyenne ± écart."""
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    scores = cross_validate(build_pipeline(model), X, y, cv=cv, scoring=CV_METRICS)
+
+    print()
+    print(title)
+    for metric in CV_METRICS:
+        values = scores[f"test_{metric}"]
+        print(f"{metric:>18} : {values.mean():.3f} ± {values.std():.3f}")
 
 
 def print_results(title, y_true, y_proba):
@@ -90,6 +123,42 @@ def main():
         y_val,
         logreg_balanced.predict_proba(X_val)[:, 1],
     )
+    
+        # 4. Validation croisée sur le train, pour confirmer le choix du remède
+    print()
+    print("=== Validation croisée sur le train (5 découpages) ===")
+    X_train_raw, y_train_raw, _ = model_inputs(load_partition(DATA_DIR, "train"))
+
+    cross_validate_model(
+        "Logistique SANS remède :",
+        LogisticRegression(max_iter=1000, random_state=42),
+        X_train_raw,
+        y_train_raw,
+    )
+    cross_validate_model(
+        "Logistique AVEC class_weight='balanced' :",
+        LogisticRegression(max_iter=1000, random_state=42, class_weight="balanced"),
+        X_train_raw,
+        y_train_raw,
+    )
+    
+        # 5. Démonstration : baisser le seuil du modèle SANS remède
+    print()
+    print("=== Logistique SANS remède, avec différents seuils (validation) ===")
+    proba_logreg = logreg.predict_proba(X_val)[:, 1]
+    for threshold in [0.5, 0.4, 0.3, 0.25, 0.2]:
+        r = evaluate_model(y_val, proba_logreg, threshold=threshold)
+        print(
+            f"seuil {threshold:.2f} -> precision {r['precision']:.3f}"
+            f" | recall {r['recall']:.3f} | f1 {r['f1']:.3f}"
+        )
+        
+            # 6. Remède retenu : pas de pondération, seuil qui maximise le F1 sur la validation
+    best_threshold = find_best_threshold(y_val, proba_logreg)
+    print()
+    print(f"=== Remède retenu : sans pondération, seuil = {best_threshold:.3f} ===")
+    for name, value in evaluate_model(y_val, proba_logreg, threshold=best_threshold).items():
+        print(f"{name:>18} : {value}")
 
 if __name__ == "__main__":
     main()
