@@ -1,0 +1,34 @@
+{
+  "selected_model": "gradient_boosting",
+  "models": {
+    "logistic_regression": {
+      "params": {
+        "C": 62.24909951304236
+      },
+      "cv_average_precision": 0.7373148959789474,
+      "validation_average_precision": 0.7418282879116983
+    },
+    "random_forest": {
+      "params": {
+        "n_estimators": 350,
+        "max_depth": 15,
+        "min_samples_leaf": 1,
+        "max_features": 0.3
+      },
+      "cv_average_precision": 0.8093966913886103,
+      "validation_average_precision": 0.8176388103608759
+    },
+    "gradient_boosting": {
+      "params": {
+        "learning_rate": 0.03497907527626691,
+        "max_iter": 500,
+        "max_leaf_nodes": 21,
+        "min_samples_leaf": 40,
+        "l2_regularization": 0.00013676339830340906,
+        "max_features": 0.6230526711218255
+      },
+      "cv_average_precision": 0.8274955133801007,
+      "validation_average_precision": 0.8331182262979671
+    }
+  }
+}
