@@ -1,0 +1,25 @@
+# Version python 3.13.9
+
+# Data and visualization
+numpy
+pandas
+matplotlib
+seaborn
+openpyxl
+missingno
+
+# Supervised learning and imbalanced data
+scikit-learn
+imbalanced-learn
+lightgbm
+
+# Tuning, tracking, explanations, and fairness
+optuna
+mlflow
+shap
+fairlearn
+
+# Prediction API and model persistence
+fastapi
+uvicorn
+joblib

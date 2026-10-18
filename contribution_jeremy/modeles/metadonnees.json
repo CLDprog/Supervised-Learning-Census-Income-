@@ -1,0 +1,20 @@
+{
+  "modele": "LightGBM",
+  "hyperparametres": {
+    "n_estimators": 600,
+    "learning_rate": 0.023023710609724087,
+    "num_leaves": 32,
+    "min_child_samples": 10,
+    "subsample": 0.9117836128199638,
+    "colsample_bytree": 0.5094196420661883,
+    "reg_lambda": 0.04902951156241922
+  },
+  "seuil": 0.3386092899787563,
+  "metriques_validation": {
+    "PR-AUC": 0.8346055300462613,
+    "ROC-AUC": 0.9324215574819981,
+    "précision": 0.6859099804305284,
+    "rappel": 0.8002283105022832,
+    "F1": 0.7386722866174921
+  }
+}
