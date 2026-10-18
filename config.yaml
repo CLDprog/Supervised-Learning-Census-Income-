@@ -1,0 +1,23 @@
+# Réglages communs à toutes les étapes du projet.
+seed: 42
+cv_folds: 5
+
+# Partie 6 : nombre d'essais Optuna par modèle (objectif : AP moyenne en validation croisée groupée)
+tuning:
+  n_trials:
+    logistic_regression: 25
+    random_forest: 20
+    gradient_boosting: 40
+
+# Partie 7 : suivi des expériences (lancer `mlflow ui --backend-store-uri sqlite:///mlflow.db` pour les consulter)
+mlflow:
+  tracking_uri: sqlite:///mlflow.db
+  experiment: census-income
+
+# Partie 8 : explicabilité
+shap:
+  sample_size: 1000
+
+# Partie 10 : audit d'équité
+fairness:
+  sensitive_attribute: sex

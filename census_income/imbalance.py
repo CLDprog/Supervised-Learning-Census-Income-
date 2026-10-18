@@ -1,17 +1,10 @@
 """Partie 3 : gestion du déséquilibre des classes (contribution de Yanis)."""
-import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold, cross_validate
 
 from census_income.data import DATA_DIR, load_partition, model_inputs
 from census_income.evaluation import evaluate_model, find_best_threshold
-from census_income.features import (
-    add_capital_features,
-    build_encoder,
-    build_missing_value_imputer,
-    group_rare_categories,
-)
 from census_income.pipeline import build_pipeline
 
 
@@ -24,28 +17,11 @@ def prepare_features():
     X_train, y_train, _ = model_inputs(load_partition(DATA_DIR, "train"))
     X_val, y_val, _ = model_inputs(load_partition(DATA_DIR, "validation"))
 
-    imputer = build_missing_value_imputer()
-    encoder = build_encoder()
-
-    # Train : on apprend ET on transforme
-    X_train_imputed = pd.DataFrame(
-        imputer.fit_transform(X_train),
-        columns=imputer.get_feature_names_out(),
-        index=X_train.index,
-    )
-    X_train_featured = add_capital_features(group_rare_categories(X_train_imputed))
-    X_train_encoded = encoder.fit_transform(X_train_featured)
-
-    # Validation : on transforme seulement
-    X_val_imputed = pd.DataFrame(
-        imputer.transform(X_val),
-        columns=imputer.get_feature_names_out(),
-        index=X_val.index,
-    )
-    X_val_featured = add_capital_features(group_rare_categories(X_val_imputed))
-    X_val_encoded = encoder.transform(X_val_featured)
-
+    preprocessing = build_pipeline("passthrough")
+    X_train_encoded = preprocessing.fit_transform(X_train)
+    X_val_encoded = preprocessing.transform(X_val)
     return X_train_encoded, y_train, X_val_encoded, y_val
+
 
 CV_METRICS = ["average_precision", "roc_auc", "precision", "recall", "f1"]
 

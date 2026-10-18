@@ -82,70 +82,25 @@ def build_encoder() -> ColumnTransformer:
         verbose_feature_names_out=False,
     )
 
+
 def main():
-    train_df = load_partition(DATA_DIR, "train")
-    X_train, y_train, sex_train = model_inputs(train_df)
+    """Résumé de la partie 2 : la chaîne est apprise sur le train, puis appliquée à la validation."""
+    from census_income.pipeline import build_pipeline
 
-    print("Forme de X_train :", X_train.shape)
-    print("Valeurs manquantes avant imputation :")
-    print(X_train.isna().sum())
+    X_train, _, _ = model_inputs(load_partition(DATA_DIR, "train"))
+    X_val, _, _ = model_inputs(load_partition(DATA_DIR, "validation"))
+    preprocessing = build_pipeline("passthrough")
+    X_train_encoded = preprocessing.fit_transform(X_train)
+    X_val_encoded = preprocessing.transform(X_val)
+    grouped = preprocessing[:3].transform(X_train)
 
-    imputer = build_missing_value_imputer()
-    X_train_imputed = imputer.fit_transform(X_train)
+    print("Valeurs manquantes avant :", X_train.isna().sum()[lambda s: s > 0].to_dict())
+    print("Valeurs manquantes après :", int(grouped.isna().sum().sum()))
+    print("workclass après regroupement :", grouped["workclass"].value_counts().to_dict())
+    print("native-country après regroupement :", grouped["native-country"].value_counts().to_dict())
+    print("Lignes au plafond de capital-gain :", int(grouped["capital_gain_capped"].sum()))
+    print("Colonnes finales :", X_train_encoded.shape[1], "(train)", X_val_encoded.shape[1], "(validation)")
 
-    X_train_imputed = pd.DataFrame(
-        X_train_imputed, columns=imputer.get_feature_names_out()
-    )
-    X_train_imputed.index = X_train.index
-    
-    X_train_grouped = group_rare_categories(X_train_imputed)
-
-    print()
-    print("Modalités de workclass après regroupement :")
-    print(X_train_grouped["workclass"].value_counts())
-    print()
-    print("Modalités de native-country après regroupement :")
-    print(X_train_grouped["native-country"].value_counts())
-
-    print()
-    print("Valeurs manquantes après imputation :")
-    print(X_train_imputed.isna().sum())
-
-    X_train_featured = add_capital_features(X_train_grouped)
-
-    print()
-    print("Nouvelles colonnes :")
-    print(X_train_featured[["capital-gain", "capital_gain_log", "capital_gain_capped", "capital-loss", "capital_loss_log"]].describe())
-    print()
-    print("Nombre de lignes au plafond (capital_gain_capped == 1) :")
-    print((X_train_featured["capital_gain_capped"] == 1).sum())
-    
-    encoder = build_encoder()
-    X_train_encoded = encoder.fit_transform(X_train_featured)
-
-    print()
-    print("Forme de X_train après encodage :", X_train_encoded.shape)
-    print("Nombre total de colonnes générées :", len(encoder.get_feature_names_out()))
-    print("Premières colonnes :", list(encoder.get_feature_names_out())[:15])
-    
-    print()
-    print("=== Application sur validation ===")
-
-    validation_df = load_partition(DATA_DIR, "validation")
-    X_val, y_val, sex_val = model_inputs(validation_df)
-
-    X_val_imputed = imputer.transform(X_val)  # transform, pas fit_transform
-    X_val_imputed = pd.DataFrame(X_val_imputed, columns=imputer.get_feature_names_out())
-    X_val_imputed.index = X_val.index
-
-    X_val_grouped = group_rare_categories(X_val_imputed)
-    X_val_featured = add_capital_features(X_val_grouped)
-
-    X_val_encoded = encoder.transform(X_val_featured)  # transform, pas fit_transform
-
-    print("Forme de X_val après encodage :", X_val_encoded.shape)
-    print("Même nombre de colonnes que train ? ->", X_val_encoded.shape[1] == X_train_encoded.shape[1])
 
 if __name__ == "__main__":
     main()
-

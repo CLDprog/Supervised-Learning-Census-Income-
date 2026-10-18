@@ -1,5 +1,19 @@
 __pycache__/
 *.pyc
 .venv/
+
+# Fichiers générés par le code (reproductibles avec les commandes du README)
 data/processed/
+models/
+mlflow.db
+mlruns/
+
+# Restes locaux de l'ancienne organisation (dont le venv utilisé sur le poste de Yanis)
 contributions/
+
+# Fichiers de compilation LaTeX
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
