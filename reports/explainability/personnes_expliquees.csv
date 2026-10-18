@@ -1,0 +1,5 @@
+cas,row_id,vraie_classe,probabilite,age,workclass,education-num,marital-status,occupation,relationship,race,capital-gain,capital-loss,hours-per-week,native-country
+vrai_positif,642,1,0.7834,57,Federal-gov,13,Married-civ-spouse,Exec-managerial,Wife,White,0,0,40,United-States
+faux_negatif,6146,1,0.2574,53,Self-emp-not-inc,9,Married-civ-spouse,Craft-repair,Husband,White,0,0,40,Yugoslavia
+faux_positif,31686,0,0.5382,49,Local-gov,9,Married-civ-spouse,Protective-serv,Husband,White,0,0,40,United-States
+vrai_negatif,31821,0,0.0196,50,Self-emp-not-inc,6,Never-married,Craft-repair,Not-in-family,White,0,0,25,United-States
