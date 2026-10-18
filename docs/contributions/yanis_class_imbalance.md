@@ -1,10 +1,12 @@
 # Supervised Learning - Census Income - Partie 3 : Déséquilibre des classes
 
+> **Document historique de contribution.** Il décrit le travail tel qu'il a été livré, avec les chemins et commandes de l'époque (dossier `contributions/`). Le code se trouve désormais dans `census_income/` ; voir le README racine pour la structure et les commandes actuelles.
+
 **Contribution de Yanis.** Requirement technique n°3 : rapporter des
 métriques pertinentes, justifier le remède au déséquilibre et montrer comment
 il est appliqué dans le code. Construit sur le split de
-[Hugo](../hugo/eda_and_data_splitting/) et sur le feature engineering de la
-[partie 2](../feature_engineering/).
+[Hugo](hugo_eda_and_data_splitting.md) et sur le feature engineering de la
+[partie 2](yanis_feature_engineering.md).
 
 ## Provenance
 

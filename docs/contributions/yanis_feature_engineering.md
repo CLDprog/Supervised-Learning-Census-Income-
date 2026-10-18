@@ -1,8 +1,10 @@
 # Supervised Learning - Census Income - Part 2 Feature Engineering
 
+> **Document historique de contribution.** Il décrit le travail tel qu'il a été livré, avec les chemins et commandes de l'époque (dossier `contributions/`). Le code se trouve désormais dans `census_income/` ; voir le README racine pour la structure et les commandes actuelles.
+
 **Contribution de Yanis.** Construit sur le split train/validation/test de
-[Hugo](../hugo/eda_and_data_splitting/) et sur les constats de l'EDA initiale
-([EDA.ipynb](../../EDA.ipynb)). Ce dossier ne modifie aucun fichier existant du
+[Hugo](hugo_eda_and_data_splitting.md) et sur les constats de l'EDA initiale
+([EDA.ipynb](../../notebooks/01_eda.ipynb)). Ce dossier ne modifie aucun fichier existant du
 dépôt ; il ajoute uniquement le travail de la partie 2 (requirement technique
 n°2 : encoder les catégorielles, gérer les valeurs manquantes, créer des
 features justifiées).

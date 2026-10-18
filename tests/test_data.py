@@ -6,8 +6,8 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from src.prepare_data import (COLUMNS, CATEGORICAL, NUMERIC, ROW_ID, clean_data,
-                      export_splits, load_partition, make_splits, model_inputs)
+from census_income.data import (COLUMNS, CATEGORICAL, NUMERIC, ROW_ID, clean_data,
+                                export_splits, load_partition, make_splits, model_inputs)
 
 
 def fixture():
@@ -93,7 +93,7 @@ class ProtocolTests(unittest.TestCase):
             clean_data(raw)
 
     def test_eda_runs_with_only_training_csv_available(self):
-        from src.explore_training_data import run_eda
+        from census_income.explore import run_eda
         with tempfile.TemporaryDirectory() as temp:
             data_dir = Path(temp) / "data"
             manifest = export_splits(fixture(), data_dir, "synthetic fixture")

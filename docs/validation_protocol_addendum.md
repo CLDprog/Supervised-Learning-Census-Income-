@@ -1,7 +1,7 @@
 # Validation protocol addendum - Hugo's contribution
 
-This complements the [existing framing](../../../../docs/problem_framing.md)
-and [Jérémy's EDA](../../../../EDA.ipynb); neither file is edited or replaced.
+This complements the [existing framing](problem_framing.md)
+and [Jérémy's EDA](../notebooks/01_eda.ipynb); neither file is edited or replaced.
 Dataset, target and the exact-deduplication rule are inherited from that work.
 
 ## Implemented addition

@@ -1,6 +1,6 @@
 """Training-only EDA tables, seven figures and a report-ready English summary.
 
-Run after src.prepare_data: python -m src.explore_training_data
+Run after census_income.data: python -m census_income.explore
 Validation and test CSVs are never opened by this script.
 """
 from __future__ import annotations
@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .prepare_data import CATEGORICAL, NUMERIC, TARGET, ROW_ID, load_partition
+from .data import CATEGORICAL, DATA_DIR, NUMERIC, PROJECT_ROOT, ROW_ID, TARGET, load_partition
 
 COLORS = ["#536878", "#B56953"]
 
@@ -161,8 +161,8 @@ def run_eda(data_dir: str | Path, output_dir: str | Path) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--data-dir", type=Path, default=Path("data/processed"))
-    parser.add_argument("--output-dir", type=Path, default=Path("reports/eda"))
+    parser.add_argument("--data-dir", type=Path, default=DATA_DIR)
+    parser.add_argument("--output-dir", type=Path, default=PROJECT_ROOT / "reports" / "eda")
     args = parser.parse_args()
     summary = run_eda(args.data_dir, args.output_dir)
     print(f"Training-only EDA completed: {summary['n_rows']:,} rows; seven figures and tables in {args.output_dir}")

@@ -5,8 +5,8 @@ import numpy as np
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 
-from contributions.yanis.class_imbalance.src.compare_imbalance import prepare_features
-from contributions.yanis.class_imbalance.src.evaluate import evaluate_model, find_best_threshold
+from census_income.evaluation import evaluate_model, find_best_threshold
+from census_income.imbalance import prepare_features
 
 
 class TestEvaluateModel(unittest.TestCase):

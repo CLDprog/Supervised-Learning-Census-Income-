@@ -1,7 +1,6 @@
-[docs:problem_framing.md](https://github.com/user-attachments/files/33385222/docs.problem_framing.md)
 # Problem framing - Adult / Census Income
 
-**Status:** planned protocol. The repository currently contains EDA, not implemented modelling or evaluation. Counts below come from [EDA.ipynb](../EDA.ipynb).
+**Status:** planned protocol. The repository currently contains EDA, not implemented modelling or evaluation. Counts below come from [EDA](../notebooks/01_eda.ipynb).
 
 ## 1. Objective and use
 

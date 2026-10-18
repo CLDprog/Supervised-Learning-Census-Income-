@@ -1,22 +1,15 @@
 """Tests pour le feature engineering (contribution de Yanis)."""
-from pathlib import Path
-import sys
 import unittest
 
 import pandas as pd
 
-SRC_DIR = Path(__file__).resolve().parent.parent / "src"
-sys.path.insert(0, str(SRC_DIR))
-
-from build_features import (  # noqa: E402
+from census_income.data import DATA_DIR, load_partition, model_inputs
+from census_income.features import (
     CAPITAL_GAIN_CAP,
-    DATA_DIR,
     add_capital_features,
     build_encoder,
     build_missing_value_imputer,
     group_rare_categories,
-    load_partition,
-    model_inputs,
 )
 
 

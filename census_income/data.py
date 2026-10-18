@@ -1,6 +1,6 @@
 """Load Adult, deduplicate, split and preserve aligned fairness attributes.
 
-Run: python -m src.prepare_data (reads the group's root Excel snapshot)
+Run: python -m census_income.data (reads data/raw/census_income.xlsx)
 No imputation, encoding, scaling or resampling is fitted here.
 """
 from __future__ import annotations
@@ -25,6 +25,10 @@ TARGET = "class"
 ROW_ID = "row_id"
 EXCLUDED_PREDICTORS = [ROW_ID, TARGET, "fnlwgt", "education", "sex"]
 LABELS = {"<=50K": 0, ">50K": 1}
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RAW_DATA_PATH = PROJECT_ROOT / "data" / "raw" / "census_income.xlsx"
+DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 
 def load_raw(input_path: str | Path | None = None) -> pd.DataFrame:
@@ -77,7 +81,9 @@ def model_inputs(frame: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series, pd.Serie
 
     Missing features are deliberately retained for the future fitted pipeline.
     """
-    aligned = frame.set_index(ROW_ID, verify_integrity=True)
+    aligned = frame.set_index(ROW_ID)
+    if not aligned.index.is_unique:
+        raise ValueError(f"Duplicate {ROW_ID} values.")
     X = aligned.drop(columns=[c for c in EXCLUDED_PREDICTORS if c != ROW_ID]).copy()
     y = aligned[TARGET].map(LABELS).astype("int64").rename("income_gt_50k")
     sensitive = aligned["sex"].copy().rename("sex")
@@ -237,10 +243,10 @@ def main():
     sources = parser.add_mutually_exclusive_group()
     sources.add_argument("--input", type=Path, help="Repository .xlsx/.csv snapshot")
     sources.add_argument("--openml", action="store_true", help="Download OpenML adult v2 explicitly")
-    parser.add_argument("--output-dir", type=Path, default=Path("data/processed"))
+    parser.add_argument("--output-dir", type=Path, default=DATA_DIR)
     parser.add_argument("--random-state", type=int, default=42)
     args = parser.parse_args()
-    path = None if args.openml else (args.input or Path(__file__).resolve().parents[4] / "census_income.xlsx")
+    path = None if args.openml else (args.input or RAW_DATA_PATH)
     source = "fetch_openml(name='adult', version=2)" if path is None else str(path)
     result = export_splits(load_raw(path), args.output_dir, source, args.random_state)
     print(f"Raw: {result['raw_rows']:,}; removed: {result['duplicates_removed']}; clean: {result['clean_rows']:,}")

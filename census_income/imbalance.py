@@ -3,19 +3,16 @@ import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold, cross_validate
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import FunctionTransformer
 
-from contributions.yanis.class_imbalance.src.evaluate import evaluate_model, find_best_threshold
-from contributions.yanis.feature_engineering.src.build_features import (
-    DATA_DIR,
+from census_income.data import DATA_DIR, load_partition, model_inputs
+from census_income.evaluation import evaluate_model, find_best_threshold
+from census_income.features import (
     add_capital_features,
     build_encoder,
     build_missing_value_imputer,
     group_rare_categories,
-    load_partition,
-    model_inputs,
 )
+from census_income.pipeline import build_pipeline
 
 
 def prepare_features():
@@ -51,22 +48,6 @@ def prepare_features():
     return X_train_encoded, y_train, X_val_encoded, y_val
 
 CV_METRICS = ["average_precision", "roc_auc", "precision", "recall", "f1"]
-
-
-def build_pipeline(model):
-    """Range toute la partie 2 puis le modèle dans un seul objet.
-
-    Indispensable pour la validation croisée : à chaque découpage,
-    l'imputation et l'encodage sont réappris sur la partie
-    d'entraînement uniquement (pas de fuite de données).
-    """
-    return Pipeline([
-        ("impute", build_missing_value_imputer().set_output(transform="pandas")),
-        ("group_rare", FunctionTransformer(group_rare_categories)),
-        ("capital", FunctionTransformer(add_capital_features)),
-        ("encode", build_encoder()),
-        ("model", model),
-    ])
 
 
 def cross_validate_model(title, model, X, y):

@@ -1,4 +1,5 @@
-﻿__pycache__/
+__pycache__/
 *.pyc
 .venv/
-contributions/hugo/eda_and_data_splitting/data/processed/
+data/processed/
+contributions/

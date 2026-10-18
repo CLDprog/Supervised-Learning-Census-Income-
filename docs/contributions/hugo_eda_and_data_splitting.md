@@ -1,8 +1,10 @@
 # Hugo's contribution - EDA and reproducible data splitting
 
+> **Document historique de contribution.** Il décrit le travail tel qu'il a été livré, avec les chemins et commandes de l'époque (dossier `contributions/`). Le code se trouve désormais dans `census_income/` ; voir le README racine pour la structure et les commandes actuelles.
+
 This directory is an **additive contribution** to the group project. It builds
-on [Jérémy's original EDA notebook](../../../EDA.ipynb) and the existing
-[problem framing](../../../docs/problem_framing.md). All files already present
+on [Jérémy's original EDA notebook](../../notebooks/01_eda.ipynb) and the existing
+[problem framing](../problem_framing.md). All files already present
 in the group repository remain unchanged; this README belongs only to Hugo's
 contribution folder and does not replace the project's README.
 

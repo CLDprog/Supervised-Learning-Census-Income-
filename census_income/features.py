@@ -1,21 +1,12 @@
-"""Feature engineering - Census Income (contribution de Yanis)."""
+"""Partie 2 : feature engineering (imputation, catégories rares, features capital, encodage)."""
 
 import numpy as np
 import pandas as pd
-from pathlib import Path
-import sys
-
-CONTRIBUTIONS_DIR = Path(__file__).resolve().parents[3]
-HUGO_SRC = CONTRIBUTIONS_DIR / "hugo" / "eda_and_data_splitting"
-
-sys.path.insert(0, str(HUGO_SRC))
-from src.prepare_data import load_partition, model_inputs  # noqa: E402
-
-DATA_DIR = HUGO_SRC / "data" / "processed"
-
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from census_income.data import DATA_DIR, load_partition, model_inputs
 
 def build_missing_value_imputer() -> ColumnTransformer:
     """Impute les 3 colonnes à valeurs manquantes, chacune avec sa règle."""
@@ -70,7 +61,6 @@ def add_capital_features(X):
 
     return X
 
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 NUMERIC_FEATURES = ["age", "education-num", "hours-per-week", "capital_gain_log", "capital_loss_log"]
 PASSTHROUGH_FEATURES = ["capital_gain_capped"]
