@@ -1,0 +1,4 @@
+,age,workclass,education,marital-status,occupation,relationship,sex,capital-gain,hours-per-week,probabilite,vraie_classe
+vrai_positif,54,Self-emp-inc,Prof-school,Married-civ-spouse,Prof-specialty,Husband,Male,99999,40,0.9991926991071685,1
+faux_negatif,20,Private,12th,Never-married,Other-service,Own-child,Male,0,35,0.00037018246626881695,1
+faux_positif,33,Private,HS-grad,Married-civ-spouse,Exec-managerial,Husband,Male,4386,60,0.9229445863851842,0
